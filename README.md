@@ -6,4 +6,4 @@ Study material: [Mumshad Mannambeth's CKA course (KodeKloud)](https://www.udemy.
 
 ## Tracks
 
-- [`cka/`](./cka) — Certified Kubernetes Administrator — **in progress**, targeting completion by end of 2026
+- `cka/` — Certified Kubernetes Administrator — **in progress**, targeting completion by end of 2026
