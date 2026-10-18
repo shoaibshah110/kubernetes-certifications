@@ -77,6 +77,9 @@ flowchart TB
 
 Steps 3 and 6 are drawn as arrows *from* the API server for simplicity (API server ↔ scheduler / API server ↔ kubelet is really a watch, not a one-way push) — the number tells you *when* in the sequence it happens, not that the API server is "sending" something unprompted. Step 7 is dashed because it isn't part of this one-time sequence — it's a loop running the whole time, independently, which is why it's labeled separately rather than numbered inline with 1–6.
 
+> **Why does the scheduler watch the API server in step 3, and not read the pending pod straight out of etcd?**
+> Because **only the API server is ever allowed to talk to etcd.** Not the scheduler, not the controller-manager, not kubelet, not even `kubectl` — nobody else holds etcd's credentials or speaks its protocol. Every other component works entirely through a long-lived **watch** connection to the API server, which pushes them updates the instant something relevant changes, instead of anyone polling etcd (or even the API server) in a loop. This single-gatekeeper design is what makes auth, authorization, admission control, and audit logging for etcd's data consistent — there's exactly one door in, and the API server is it. Worth re-reading [kube-apiserver.md](./kube-apiserver.md) alongside this if it's not fully clicking yet.
+
 ## Key idea to remember
 
 Kubernetes is built around **desired state vs. actual state**:
