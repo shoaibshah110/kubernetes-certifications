@@ -1,6 +1,6 @@
 # kube-proxy
 
-> Builds on: [cluster architecture](./architecture.md) and [kubelet](./kubelet.md). Read those first if you haven't. This one will make more sense once we've covered Services — treat this as a first pass, we'll revisit when we get to networking.
+> Builds on: [cluster architecture](./architecture.md) and [kubelet](./kubelet.md). Read those first if you haven't. Services are now covered in [services.md](./services.md) — read this note first for the mechanism, then services.md for the object you'll actually create and the exam-relevant troubleshooting.
 
 ## What it actually is
 
