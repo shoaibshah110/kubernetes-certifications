@@ -49,14 +49,7 @@ spec:
           image: nginx
 ```
 
-Note there are **two places `app: nginx` needs to match**: the top-level `selector.matchLabels` and the `template.metadata.labels`. If the template's labels don't satisfy the selector, the object would be logically self-contradictory — a ReplicaSet whose own selector could never match the Pods it creates, since each new Pod wouldn't count toward what it's looking for. Because that situation can never resolve itself, **Kubernetes doesn't even let you create it** — the API server validates this at creation time and rejects the object outright with an error like:
-
-```
-error: ReplicaSet.apps "nginx-rs" is invalid: spec.template.metadata.labels:
-Invalid value: map[string]string{"app":"wrong-label"}: `selector` does not match template `labels`
-```
-
-This is one of the most common hands-on mistakes when writing ReplicaSet YAML from scratch — but the good news is you'll see this exact validation error immediately rather than something silently broken.
+Note there are **two places `app: nginx` needs to match**: the top-level `selector.matchLabels` and the `template.metadata.labels`. If these don't match, the ReplicaSet is invalid — it would create Pods from the template that it then doesn't recognize as its own, and keep creating more forever. This is one of the most common hands-on mistakes when writing ReplicaSet YAML from scratch.
 
 ## The selector adopts existing Pods too
 
