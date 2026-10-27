@@ -15,7 +15,7 @@ Taints and tolerations are how you achieve this.
 
 Think of it like a "staff only" sign on a door (the taint). A toleration is like a staff badge — it lets you through *that specific* door, but it doesn't pull you toward it. It doesn't make the door more attractive or likely to be chosen; it just removes the "don't enter" restriction for you specifically.
 
-**This is the single most important thing to understand, and the most common misunderstanding:** a toleration does **not** attract a Pod to a tainted node. It only permits the Pod to be placed there *if the scheduler was already considering it*. If you actually want a Pod to prefer or require a specific node, that's **node affinity** (a separate mechanism, its own note) — taints/tolerations only ever repel-or-allow, never attract.
+**This is the single most important thing to understand, and the most common misunderstanding:** a toleration does **not** attract a Pod to a tainted node. It only permits the Pod to be placed there *if the scheduler was already considering it*. If you actually want a Pod to prefer or require a specific node, that's **[node affinity](./node-affinity.md)** (a separate mechanism, its own note) — taints/tolerations only ever repel-or-allow, never attract.
 
 ## Applying a taint to a node
 
@@ -99,11 +99,11 @@ kubectl describe pod <pod-name> | grep Tolerations   # see a pod's tolerations
 
 ## Key idea to remember
 
-**Taint = repel by default. Toleration = permission to ignore a specific repel.** A toleration never attracts — it only cancels out one specific "keep out" sign. If a Pod needs to actually *prefer* or *require* a particular node, that's a different, separate mechanism (node affinity), often used together with tolerations when you want both "must avoid everywhere else" and "must land exactly here."
+**Taint = repel by default. Toleration = permission to ignore a specific repel.** A toleration never attracts — it only cancels out one specific "keep out" sign. If a Pod needs to actually *prefer* or *require* a particular node, that's a different, separate mechanism ([node affinity](./node-affinity.md)), often used together with tolerations when you want both "must avoid everywhere else" and "must land exactly here."
 
 ## Exam tips
 
 - Remember the exact format for the imperative command: `kubectl taint nodes <node> key=value:effect`, and the trailing `-` to remove one.
 - Know all three effects cold, especially that only `NoExecute` evicts already-running Pods — `NoSchedule`/`PreferNoSchedule` only affect future scheduling decisions.
 - A very common exam scenario: "this Pod isn't being scheduled onto this node" — check the node's taints first, then check whether the Pod has a matching toleration.
-- Don't confuse this with node affinity — if a scenario needs a Pod to *only ever* run on a specific set of nodes, tolerations alone are not enough; you need affinity/nodeSelector too.
+- Don't confuse this with [node affinity](./node-affinity.md) — if a scenario needs a Pod to *only ever* run on a specific set of nodes, tolerations alone are not enough; you need affinity/nodeSelector too.
