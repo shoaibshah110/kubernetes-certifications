@@ -94,6 +94,14 @@ This is the single most important distinction in this whole topic, and the exam 
 
 **To truly dedicate a node to only specific Pods, you need both together:** taint the node (so nothing lands there by default) + give your target Pods both a toleration for that taint (so they're *allowed* there) and node affinity for that node's labels (so they actually *go* there). This combination is a realistic, common exam scenario.
 
+### When to reach for which, in practice
+
+Ask yourself which question you're actually answering:
+
+- **"What should NOT be allowed here unless explicitly permitted?"** → taints & tolerations. You're protecting a node from Pods in general (e.g. the control plane node's built-in taint, or a node reserved for GPU workloads).
+- **"Where SHOULD this particular Pod go?"** → node affinity. You're expressing a requirement about a specific Pod's placement (e.g. "this Pod needs SSD storage" or "this Pod must run in zone us-east").
+- **"Only this Pod, and nothing else, on this node"** → both together. Neither one alone achieves full exclusivity — a toleration without affinity just makes a node an *option*, not a destination; affinity without a taint doesn't stop anyone else from landing there too.
+
 ## Key idea to remember
 
 **Taints/tolerations = repel, with permission to override. Node affinity = attract, optionally mandatory.** They're complementary, not alternatives — one restricts who can land, the other decides who wants to.
