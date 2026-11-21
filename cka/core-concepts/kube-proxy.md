@@ -26,7 +26,7 @@ You won't need to hand-write these rules — just understand that kube-proxy is 
 
 ## Where it runs
 
-Unlike kubelet, kube-proxy typically runs as a **DaemonSet** (a pod on every node, managed the normal Kubernetes way) rather than a static pod:
+Unlike kubelet, kube-proxy typically runs as a **[DaemonSet](../scheduling/daemonsets.md)** (a pod on every node, managed the normal Kubernetes way) rather than a static pod:
 
 ```bash
 kubectl get daemonset -n kube-system kube-proxy
