@@ -19,7 +19,7 @@ Unlike the control plane components, **kubelet is not a static pod itself** — 
 
 ## Static pods, revisited
 
-This is worth calling out clearly since it explains something you'll rely on throughout the course: static pods are **not managed through the API server at all** in the normal sense. kubelet watches a directory on disk (`/etc/kubernetes/manifests/` by default, configurable via `--pod-manifest-path` or the kubelet config file), and:
+This is worth calling out clearly since it explains something you'll rely on throughout the course: static pods are **not managed through the API server at all** in the normal sense. kubelet watches a directory on disk (`/etc/kubernetes/manifests/` by default, configurable via `--pod-manifest-path` or the kubelet config file), and (full dedicated note: [static-pods.md](../scheduling/static-pods.md)):
 
 - Drop a valid pod YAML in there → kubelet starts it.
 - Edit that file → kubelet detects the change and restarts the pod with new config.
